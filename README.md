@@ -15,6 +15,7 @@ To complete 60% of the most essential DSA topics using:
 
 ## 📚 Structure
 
+'''
 📦 SSJ3-DSA-Journey/
 ├── README.md
 ├── roadmap.md               # 20-day roadmap and notes
@@ -40,6 +41,7 @@ To complete 60% of the most essential DSA topics using:
 │   ├── 2025-06-30.md
 ├── .gitignore
 └── LICENSE
+'''
 
 ---
 
