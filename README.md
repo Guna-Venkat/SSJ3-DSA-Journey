@@ -20,11 +20,10 @@ To complete 60% of the most essential DSA topics using:
 ├── README.md
 ├── roadmap.md               # 20-day roadmap and notes
 ├── problems/
-│   ├── day01_arrays/
+│   ├── arrays/
 │   │   ├── two_sum.py
 │   │   ├── dutch_national_flag.py
-│   ├── day02_arrays2/
-│   ├── day03_strings/
+│   ├── strings/
 │   ├── ...
 ├── notes/
 │   ├── arrays.md
