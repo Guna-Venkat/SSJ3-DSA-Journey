@@ -45,7 +45,7 @@ the rest to get the next lexicographically smallest sequence.
 
 Input: nums = [1, 2, 3]
 - Step 1: Find i = 1 (because 2 < 3)
-- Step 2: Find j = 2 (smallest number > 2 from the right)
+- Step 2: Find j = 2 (smallest number > 1 from the right)
 - Step 3: Swap → [1, 3, 2]
 - Step 4: Reverse suffix (nothing to reverse as it's just [2])
 
