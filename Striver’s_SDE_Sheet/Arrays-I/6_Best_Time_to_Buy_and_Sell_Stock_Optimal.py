@@ -1,104 +1,118 @@
 """
-📌 Problem: Best Time to Buy and Sell Stock (Leetcode 121)
+📌 Problem: Rotate Image (Leetcode 48)
 ----------------------------------------------------------
-You are given an array `prices` where `prices[i]` is the price of a given stock on the ith day.
+You are given an `n x n` 2D matrix representing an image.
+Rotate the image by **90 degrees clockwise**.
 
-You want to maximize your profit by choosing a **single day to buy one stock** and choosing a
-**different day in the future to sell that stock**.
-
-Return the **maximum profit** you can achieve from this transaction.
-If no profit is possible, return 0.
+You must rotate the image **in-place**, meaning you should modify the input matrix directly without allocating another 2D matrix.
 
 📥 Input Examples:
 Example 1:
-    Input: prices = [7, 1, 5, 3, 6, 4]
-    Output: 5
-    Explanation: Buy on day 2 (price = 1), sell on day 5 (price = 6), profit = 6 - 1 = 5
+    Input: matrix = [[1,2,3],
+                     [4,5,6],
+                     [7,8,9]]
+    Output: [[7,4,1],
+             [8,5,2],
+             [9,6,3]]
 
 Example 2:
-    Input: prices = [7, 6, 4, 3, 1]
-    Output: 0
-    Explanation: No transaction is done, so profit = 0
+    Input: matrix = [[5,1,9,11],
+                     [2,4,8,10],
+                     [13,3,6,7],
+                     [15,14,12,16]]
+    Output: [[15,13,2,5],
+             [14,3,4,1],
+             [12,6,8,9],
+             [16,7,10,11]]
 
-🛑 Constraint:
-- You must buy before you sell
-- Only one transaction allowed
+🛑 Constraints:
+- matrix.length == n
+- matrix[i].length == n
+- 1 <= n <= 20
+- -1000 <= matrix[i][j] <= 1000
 
 ----------------------------------------------------------
-🧠 Solution Strategy: One-Pass Greedy Approach
+🧠 Solution Strategy: Transpose + Reverse Rows
 
-We maintain:
-- `min_price` → the lowest price seen so far (ideal buy day)
-- `max_profit` → the highest profit we can achieve by selling on current day after buying at `min_price`
+We can achieve the 90° rotation in two main steps:
+
+1. **Transpose the matrix** → Swap elements across the diagonal.
+   - After this step, rows become columns.
+
+2. **Reverse each row** → This gives the final rotated matrix.
 
 🚦 Algorithm Steps:
-1. Initialize:
-    - `min_price = ∞` (to track the lowest price)
-    - `max_profit = 0`
-
-2. For each price in prices:
-    - If current price < `min_price`: update `min_price`
-    - Else: calculate profit = price - `min_price`
-        - If profit > `max_profit`: update `max_profit`
-
-3. Return `max_profit` at the end.
+1. Let `n` = number of rows/columns.
+2. For each `i` in `[0, n)` and `j` in `[i+1, n)`:
+   - Swap `matrix[i][j]` and `matrix[j][i]`.
+3. For each row in the matrix:
+   - Reverse it in-place.
 
 ----------------------------------------------------------
 🔄 Step-by-step Trace:
 
-Input: prices = [7, 1, 5, 3, 6, 4]
+Input:
+    [[1,2,3],
+     [4,5,6],
+     [7,8,9]]
 
-- Day 0: price = 7 → min_price = 7
-- Day 1: price = 1 → min_price = 1
-- Day 2: price = 5 → profit = 4 → max_profit = 4
-- Day 3: price = 3 → profit = 2 → max_profit remains 4
-- Day 4: price = 6 → profit = 5 → max_profit = 5
-- Day 5: price = 4 → profit = 3 → max_profit remains 5
+Step 1: Transpose (swap across diagonal)
+    [[1,4,7],
+     [2,5,8],
+     [3,6,9]]
 
-Final Output: 5
+Step 2: Reverse each row
+    [[7,4,1],
+     [8,5,2],
+     [9,6,3]]
+
+Final Output:
+    [[7,4,1],
+     [8,5,2],
+     [9,6,3]]
 
 ----------------------------------------------------------
 ⏱ Time and Space Complexity:
-- Time Complexity: O(n) → Single pass through the array
-- Space Complexity: O(1) → Constant space, in-place calculations
+- Time Complexity: O(n²) → Every element is visited once during transpose and once during row reversal.
+- Space Complexity: O(1) → In-place rotation without extra data structures.
 
 ----------------------------------------------------------
 📝 Additional Notes:
-- This is a classic greedy problem.
-- Can be used in real-time financial analysis (e.g., max profit calculation with a single trade).
+- Works for any n x n square matrix.
+- The transpose step is a common trick in image processing tasks.
 """
 
 from typing import List
 
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
+    def rotate(self, matrix: List[List[int]]) -> None:
         """
-        Calculates the maximum profit possible with one buy and one sell.
-
-        :param prices: List[int] - List of stock prices by day
-        :return: int - Maximum achievable profit
+        Rotates the given n x n matrix 90 degrees clockwise in-place.
         """
-        min_price = float('inf')
-        max_profit = 0
+        n = len(matrix)
 
-        for price in prices:
-            if price < min_price:
-                min_price = price
-            else:
-                profit = price - min_price
-                if profit > max_profit:
-                    max_profit = profit
+        # Step 1: Transpose the matrix
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
-        return max_profit
+        # Step 2: Reverse each row
+        for i in range(n):
+            matrix[i].reverse()
 
 
 # 🔧 Test Case
 if __name__ == "__main__":
-    prices = [7, 1, 5, 3, 6, 4]
+    matrix = [[1, 2, 3],
+              [4, 5, 6],
+              [7, 8, 9]]
 
-    print("Stock Prices by Day:")
-    print(prices)
+    print("Original Matrix:")
+    for row in matrix:
+        print(row)
 
-    result = Solution().maxProfit(prices)
+    Solution().rotate(matrix)
 
-    print("\nMaximum Profit:", result)
+    print("\nRotated Matrix:")
+    for row in matrix:
+        print(row)
